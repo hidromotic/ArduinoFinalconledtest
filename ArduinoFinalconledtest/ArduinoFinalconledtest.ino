@@ -81,7 +81,7 @@ void LedTest() {
 void medirDistanciaSensoresUltrasonicos() {
   unsigned long currentTime = millis();
 
-  if (currentTime - tiempoActualizacion >= intervalo) {
+  if (currentTime - tiempoActualizacion >= intervalo) { //ACOMODAR
     medirDistanciaSensor1();
     medirDistanciaSensor2();
     verificarDistanciaSensores();
@@ -99,12 +99,14 @@ void medirDistanciaSensoresUltrasonicos() {
 */
 
 void medirDistanciaSensor1() {
-  
+
+  //MEDICION
   int frequenciaBuzzer = map(DISTANCIA_DELANTERA, 0, DISTANCIA_LIMITE, 800, 1000);
   int valorPWM = map(DISTANCIA_DELANTERA, 0, DISTANCIA_LIMITE, 255, 0);
   int mapearIntervalo = map(DISTANCIA_DELANTERA, 0, DISTANCIA_LIMITE, 255, 100);
   parpadeoLedDelanteros(LED_DELANTERO, valorPWM, mapearIntervalo, DISTANCIA_DELANTERA);
 
+  //VISUALIZACION
   lcd.setCursor(12, 0);
   lcd.print("   ");
 
@@ -112,6 +114,8 @@ void medirDistanciaSensor1() {
     lcd.setCursor(12, 0);
     lcd.print(DISTANCIA_DELANTERA);
   }
+
+  //CONTROL DEL ZUMBADOR
   if (DISTANCIA_DELANTERA == 0) PRENDER_BUZZER;
   else APAGAR_BUZZER;
 
@@ -206,7 +210,7 @@ void parpadeoLedDelanteros(int ledDelantero, int brilloLed, int intervalo, int d
     else ledState = LOW;
   }
 
-  if (distanciaDelantera == 0) digitalWrite(ledDelantero, HIGH);
+  if (distanciaDelantera == 0) digitalWrite(ledDelantero, HIGH);  //USAR DEFINICIONES... ABSTRAERSE DE LAS FUNCIONES DEL MICRO
   else analogWrite(ledDelantero, brilloLed * ledState);
   
 }
@@ -219,10 +223,10 @@ void parpadeoLedTraseros(int ledTrasero, int brilloLed, int intervalo, int dista
 
   if (currentMillis - previousMillis >= intervalo) {
     previousMillis = currentMillis;
-    if (ledState == LOW) ledState = HIGH;
+    if (ledState == LOW) ledState = HIGH; //HACER DE OTRA MANERA
     else ledState = LOW;
   }
 
-  if (distanciaTrasera == 0) digitalWrite(ledTrasero, HIGH);
+  if (distanciaTrasera == 0) digitalWrite(ledTrasero, HIGH);  //USAR DEFINICIONES
   else analogWrite(ledTrasero, brilloLed * ledState);
 }
